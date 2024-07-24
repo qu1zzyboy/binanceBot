@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  bot:
+    build:
+      context: ./tradeBot
+    volumes:
+      - ./tradeBot:/app/tradeBot
+      - packages:/usr/local
+    # Comment environment HTTP_PROXY and HTTPS_PROXY if you are not using proxy
+    environment:
+      - HTTP_PROXY=http://1.1.1.1:7890
+      - HTTPS_PROXY=http://1.1.1.1:7890
+    command: python -m tradeBot
+
+  sqldb:
+    image: mysql:8.3.0
+    environment:
+      MYSQL_USER: Hanbo
+      MYSQL_PASSWORD: dnlm2333
+      MYSQL_DATABASE: WebDatabase
+      MYSQL_ROOT_PASSWORD: helloworld
+    volumes:
+      - db:/var/lib/mysql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 3000:8080
+volumes:
+  packages:
+  db:
+
+
